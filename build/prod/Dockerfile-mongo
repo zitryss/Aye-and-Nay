@@ -1,2 +1,0 @@
-FROM mongo:4
-ENV MONGO_INITDB_DATABASE=aye-and-nay

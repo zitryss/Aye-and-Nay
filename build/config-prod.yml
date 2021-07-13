@@ -22,7 +22,7 @@ service:
   numberOfWorkersComp: 8
   accuracy: 0.625
 cache:
-  use: mem
+  use: redis
   redis:
     host: prod_redis_1
     port: 6379
@@ -33,7 +33,7 @@ cache:
     timeToLive: 15m
     cleanupInterval: 15m
 compressor:
-  use: mock
+  use: imaginary
   imaginary:
     host: prod_imaginary_1
     port: 9001
@@ -63,6 +63,10 @@ database:
       times: 4
       pause: 5s
       timeout: 30s
+    lru: 100
+  badger:
+    gcRatio: 0.7
+    cleanupInterval: 5m
     lru: 100
 storage:
   use: minio

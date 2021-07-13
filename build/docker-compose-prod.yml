@@ -17,27 +17,27 @@ services:
 
   app:
     build:
-      context: ./../../
-      dockerfile: ./build/prod/Dockerfile-app
+      context: ./../
+      dockerfile: ./build/Dockerfile-app
     volumes:
-      - "./config.yml:/config.yml"
+      - "./config-prod.yml:/config.yml"
     depends_on:
-      # - redis
-      # - imaginary
+      - redis
+      - imaginary
       - mongo
       - minio
 
-  #  redis:
-  #    build:
-  #      context: .
-  #      dockerfile: Dockerfile-redis
-  #    volumes:
-  #      - "./redis.conf:/usr/local/etc/redis/redis.conf"
+  redis:
+    build:
+      context: .
+      dockerfile: Dockerfile-redis
+    volumes:
+      - "./redis.conf:/usr/local/etc/redis/redis.conf"
 
-  #  imaginary:
-  #    build:
-  #      context: .
-  #      dockerfile: Dockerfile-imaginary
+  imaginary:
+    build:
+      context: .
+      dockerfile: Dockerfile-imaginary
 
   mongo:
     build:

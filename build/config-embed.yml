@@ -1,0 +1,85 @@
+app:
+  ballast: 0
+  log: info
+server:
+  host:
+  port: 8001
+  readTimeout:  60s
+  writeTimeout: 120s
+  idleTimeout:  120s
+  shutdownTimeout: 10s
+middleware:
+  cors:
+    allowOrigin: "*"
+  limiter:
+    requestsPerSecond: 300
+    burst: 10
+controller:
+  maxNumberOfFiles: 100
+  maxFileSize: 5242880 # 5 MB
+service:
+  numberOfWorkersCalc: 8
+  numberOfWorkersComp: 8
+  accuracy: 0.625
+cache:
+  use: mem
+  redis:
+    host: prod_redis_1
+    port: 6379
+    retry:
+      times: 4
+      pause: 5s
+      timeout: 30s
+    timeToLive: 15m
+    cleanupInterval: 15m
+compressor:
+  use: mock
+  imaginary:
+    host: prod_imaginary_1
+    port: 9001
+    retry:
+      times: 4
+      pause: 5s
+      timeout: 30s
+  shortpixel:
+    url: https://api.shortpixel.com/v2/post-reducer.php
+    url2: https://api.shortpixel.com/v2/reducer.php
+    apiKey: abcdefghijklmnopqrst
+    retry:
+      times: 2
+      pause: 10s
+      timeout: 30s
+    wait: 30
+    uploadTimeout: 60s
+    downloadTimeout: 60s
+    repeatIn: 10s
+    restartIn: 15m
+database:
+  use: badger
+  mongo:
+    host: prod_mongo_1
+    port: 27017
+    retry:
+      times: 4
+      pause: 5s
+      timeout: 30s
+    lru: 100
+  badger:
+    gcRatio: 0.7
+    cleanupInterval: 5m
+    lru: 100
+storage:
+  use: minio
+  minio:
+    host: prod_minio_1
+    port: 9000
+    accessKey: 12345678
+    secretKey: qwertyui
+    token:
+    secure: false
+    retry:
+      times: 4
+      pause: 5s
+      timeout: 30s
+    location: eu-central-1
+    prefix: /s3

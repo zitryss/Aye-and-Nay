@@ -1,0 +1,21 @@
+services:
+
+  app:
+    build:
+      context: ./../
+      dockerfile: ./build/Dockerfile-app
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "./config-embed.yml:/config.yml"
+      - "./badger/:/badger/"
+    depends_on:
+      - minio
+
+  minio:
+    build:
+      context: .
+      dockerfile: Dockerfile-minio
+    volumes:
+      - "./minio/data/:/data/"

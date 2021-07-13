@@ -8,6 +8,8 @@
 *.test
 
 # aye-and-nay
+/badger/
+/build/prod/badger/
 /build/prod/caddy/
 /build/prod/minio/
 /build/prod/mongo/

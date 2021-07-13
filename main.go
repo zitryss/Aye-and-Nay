@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"os"
 	"os/signal"
+	"path"
+	"strings"
 	"syscall"
 
 	"github.com/spf13/viper"
@@ -27,11 +29,13 @@ var (
 
 func main() {
 	conf := ""
-	flag.StringVar(&conf, "config", ".", "relative path to config file")
+	flag.StringVar(&conf, "config", "./config.yml", "relative filepath to a config file")
 	flag.Parse()
+	dir, file := path.Split(conf)
+	base := strings.TrimSuffix(file, path.Ext(file))
 
-	viper.SetConfigName("config")
-	viper.AddConfigPath(conf)
+	viper.SetConfigName(base)
+	viper.AddConfigPath(dir)
 	err := viper.ReadInConfig()
 	if err != nil {
 		_, _ = fmt.Fprintln(os.Stderr, "critical:", err)
@@ -154,6 +158,14 @@ func main() {
 	m, ok := data.(*database.Mongo)
 	if ok {
 		err = m.Close()
+		if err != nil {
+			log.Error(err)
+		}
+	}
+
+	b, ok := data.(*database.Badger)
+	if ok {
+		err = b.Close()
 		if err != nil {
 			log.Error(err)
 		}
